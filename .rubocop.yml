@@ -1,0 +1,10 @@
+AllCops:
+  Include:
+    - Guardfile
+    - Rakefile
+  Exclude:
+    - .bundle/**/*
+    - bin/**/*
+    - vendor/**/*
+
+inherit_from: .rubocop_todo.yml

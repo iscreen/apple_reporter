@@ -20,21 +20,35 @@ Or install it yourself as:
 
 ## Usage
 
-
 ### Sales
 
 - getReport
 
 ```
-reporter = AppleReporter::Sale.new(user_id: 'iscreen', password: 'your password')
+reporter = AppleReporter::Sale.new(user_id: 'your user id', password: 'your password')
 report = reporter.getReport(
-    {
-    vendor_number: 'myVendor',
+  {
+    vendor_number: 'your vender id',
     report_type: 'Sales',
     report_sub_type: 'Summary',
     date_type: 'Daily',
     date: '20161212'
-    }
+  }
+)
+```
+### Finance
+
+- getReport
+```
+reporter = AppleReporter::Finance.new(user_id: 'your user id', password: 'your password')
+report = reporter.getReport(
+  {
+    vendor_number: 'your vender id',
+    region_code: 'US',
+    report_type: 'Financial',
+    fiscal_year: '2016',
+    fiscal_period: '02'
+  }
 )
 ```
 

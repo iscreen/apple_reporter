@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VendorsAndRegions>
+    <Vendor>
+        <Number>88888888</Number>
+        <Region>
+            <Code>AU</Code>
+            <Reports>
+                <Report>Financial</Report>
+            </Reports>
+        </Region>
+        <Region>
+            <Code>CA</Code>
+            <Reports>
+                <Report>Financial</Report>
+            </Reports>
+        </Region>
+    </Vendor>
+</VendorsAndRegions>

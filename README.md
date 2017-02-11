@@ -22,7 +22,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+### Sales
+
+- getReport
+
+```
+reporter = AppleReporter::Sale.new(user_id: 'iscreen', password: 'your password')
+report = reporter.getReport(
+    {
+    vendor_number: 'myVendor',
+    report_type: 'Sales',
+    report_sub_type: 'Summary',
+    date_type: 'Daily',
+    date: '20161212'
+    }
+)
+```
 
 ## Development
 

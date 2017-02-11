@@ -1,5 +1,5 @@
 require 'httparty'
-require 'active_support/core_ext/hash'
+# require 'active_support/core_ext/hash'
 require 'nokogiri'
 
 module AppleReporter

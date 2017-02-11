@@ -1,5 +1,11 @@
 # AppleReporter
 
+[![Gem Downloads](http://ruby-gem-downloads-badge.herokuapp.com/apple_reporter?type=total)](https://rubygems.org/gems/apple_reporter)
+[![Build Status](https://travis-ci.org/iscreen/apple_reporter.svg?branch=master)](https://travis-ci.org/iscreen/apple_reporter)
+[![Code Climate](https://codeclimate.com/github/iscreen/apple_reporter.svg)](https://codeclimate.com/github/iscreen/apple_reporter)
+[![Inline docs](https://inch-ci.org/github/iscreen/apple_reporter.svg?branch=master)](http://www.rubydoc.info/gems/apple_reporter)
+
+
 This is Ruby Version <b>iTunes Connect Reporter</b>
 
 ## Installation

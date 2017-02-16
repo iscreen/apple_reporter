@@ -44,17 +44,13 @@ module AppleReporter
           gz = Zlib::GzipReader.new(io)
           return gz.readlines.join
         else
-          doc = Nokogiri::XML(response.body)
-          return Hash.from_xml(doc.to_s)
+          return Hash.from_xml(response.body)
         end
       end
 
-      if mode == 'Robot.XML'
-        doc = Nokogiri::XML(response.body)
-        return Hash.from_xml(doc.to_s)
-      end
+      return Hash.from_xml(response.body) if mode == 'Robot.XML'
 
-      return response.body
+      response.body
     end
   end
 end

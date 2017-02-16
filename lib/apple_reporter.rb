@@ -1,5 +1,4 @@
 require 'active_support/all'
-require 'nokogiri'
 require 'rest-client'
 
 require 'apple_reporter/version'

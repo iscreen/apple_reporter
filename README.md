@@ -31,7 +31,7 @@ Or install it yourself as:
 - getReport
 
 ```
-reporter = AppleReporter::Sale.new(user_id: 'your user id', password: 'your password')
+reporter = AppleReporter::Sale.new(user_id: 'your user id', access_token: 'your access token')
 report = reporter.getReport(
   {
     vendor_number: 'your vender id',
@@ -46,7 +46,7 @@ report = reporter.getReport(
 
 - getReport
 ```
-reporter = AppleReporter::Finance.new(user_id: 'your user id', password: 'your password')
+reporter = AppleReporter::Finance.new(user_id: 'your user id', access_token: 'your access token')
 report = reporter.getReport(
   {
     vendor_number: 'your vender id',

@@ -4,7 +4,7 @@ module AppleReporter
 
     #
     # Usage:
-    # reporter = Apple::Reporter::Sale.new(user_id: 'iscreen', password: 'secret', account: 'myAccount')
+    # reporter = Apple::Reporter::Sale.new(user_id: 'iscreen', access_token: 'secret', account: 'myAccount')
     #
     def initialize(config = {})
       @config = {
@@ -23,7 +23,7 @@ module AppleReporter
       }
       payload = {
         userid: @config[:user_id],
-        password: @config[:password],
+        accesstoken: @config[:access_token],
         version: @config[:version],
         mode: @config[:mode],
         queryInput: "[p=Reporter.properties, #{params}]"

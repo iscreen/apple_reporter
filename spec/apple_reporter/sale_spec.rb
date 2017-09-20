@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'AppleReporter.Sale' do
   let(:endpoint) { 'https://reportingitc-reporter.apple.com/reportservice/sales/v1'}
-  let(:reporter) { AppleReporter::Sale.new(user_id: 'iscreen', password: 'your password') }
+  let(:reporter) { AppleReporter::Sale.new(user_id: 'iscreen', access_token: 'your access token') }
 
   describe '#getAccounts' do
     describe 'successfully' do

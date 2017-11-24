@@ -4,17 +4,17 @@ describe 'AppleReporter.Sale' do
   let(:endpoint) { 'https://reportingitc-reporter.apple.com/reportservice/sales/v1'}
   let(:reporter) { AppleReporter::Sale.new(user_id: 'iscreen', access_token: 'your access token') }
 
-  describe '#getAccounts' do
+  describe '#accounts' do
     describe 'successfully' do
       let(:accounts_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'accounts.xml')) }
       before do
-        stub_request(:post, 'https://reportingitc-reporter.apple.com/reportservice/sales/v1').
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 200, body: accounts_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, 'https://reportingitc-reporter.apple.com/reportservice/sales/v1')
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 200, body: accounts_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
-      it 'get Accounts' do
-        report = reporter.getAccounts
+      it 'get accounts' do
+        report = reporter.accounts
         expect(report.key?('Accounts')).to be(true)
         expect(report['Accounts'].key?('Account')).to be(true)
       end
@@ -23,30 +23,29 @@ describe 'AppleReporter.Sale' do
     describe 'failure' do
       let(:accounts_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'error.xml')) }
       before do
-        stub_request(:post, endpoint).
-          #with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 400, body: accounts_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, endpoint)
+          .to_return(status: 400, body: accounts_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get errors' do
-        report = reporter.getAccounts
+        report = reporter.accounts
         expect(report.key?('Error')).to be(true)
         expect(report['Error'].key?('Code')).to be(true)
       end
     end
   end
 
-  describe '#getStatus' do
+  describe '#status' do
     describe 'successfully' do
       let(:status_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'status.xml')) }
       before do
-        stub_request(:post, endpoint).
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 200, body: status_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, endpoint)
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 200, body: status_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get status results' do
-        report = reporter.getStatus
+        report = reporter.status
         expect(report.key?('Status')).to be(true)
         expect(report['Status'].key?('Code')).to be(true)
       end
@@ -55,30 +54,30 @@ describe 'AppleReporter.Sale' do
     describe 'failure' do
       let(:error_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'error.xml')) }
       before do
-        stub_request(:post, endpoint).
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 400, body: error_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, endpoint)
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 400, body: error_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get errors' do
-        report = reporter.getStatus
+        report = reporter.status
         expect(report.key?('Error')).to be(true)
         expect(report['Error'].key?('Code')).to be(true)
       end
     end
   end
 
-  describe '#getVendors' do
+  describe '#vendors' do
     describe 'successfully' do
       let(:vendors_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'vendors.xml')) }
       before do
-        stub_request(:post, endpoint).
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 200, body: vendors_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, endpoint)
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 200, body: vendors_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get vendors results' do
-        report = reporter.getVendors
+        report = reporter.vendors
         expect(report.key?('Vendors')).to be(true)
         expect(report['Vendors'].key?('Vendor')).to be(true)
       end
@@ -87,20 +86,20 @@ describe 'AppleReporter.Sale' do
     describe 'failure' do
       let(:error_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'error.xml')) }
       before do
-        stub_request(:post, endpoint).
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 400, body: error_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, endpoint)
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 400, body: error_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get errors' do
-        report = reporter.getStatus
+        report = reporter.status
         expect(report.key?('Error')).to be(true)
         expect(report['Error'].key?('Code')).to be(true)
       end
     end
   end
 
-  describe '#getReport' do
+  describe '#get_report' do
     describe 'successfully' do
       let(:report_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'reports.csv')) }
       let(:gz_report) { Tempfile.new('iscreen') }
@@ -111,13 +110,13 @@ describe 'AppleReporter.Sale' do
       end
 
       before do
-        stub_request(:post, endpoint).
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 200, body: File.read(gz_report.path), headers: { 'Content-Type' => 'application/a-gzip'})
+        stub_request(:post, endpoint)
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 200, body: File.read(gz_report.path), headers: { 'Content-Type' => 'application/a-gzip'})
       end
 
-      it 'sends getReport with the correct parameters' do
-        report = reporter.getReport(
+      it 'sends get_report with the correct parameters' do
+        report = reporter.get_report(
           {
             vendor_number: 'myVendor',
             report_type: 'Sales',
@@ -134,13 +133,13 @@ describe 'AppleReporter.Sale' do
       let(:error_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'error.xml')) }
 
       before do
-        stub_request(:post, endpoint).
-          with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }).
-          to_return(status: 400, body: error_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+        stub_request(:post, endpoint)
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 400, body: error_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get errors' do
-        report = reporter.getReport(
+        report = reporter.get_report(
           {
             vendor_number: 'myVendor',
             report_type: 'Sales',

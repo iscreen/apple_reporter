@@ -1,49 +1,46 @@
 module AppleReporter
   class Finance < Reporter
-
-    # getAccounts
+    # accounts
     #
     # Usage:
-    #   report = reporter.getAccounts
-    def getAccounts
+    #   report = reporter.accounts
+    def accounts
       fetch(@config[:finance_path], 'Finance.getAccounts')
     end
 
-    # getStatus
+    # status
     #
     # Usage:
-    #   report = reporter.getStatus
-    def getStatus
+    #   report = reporter.status
+    def status
       fetch(@config[:finance_path], 'Finance.getStatus')
     end
 
-    # getVendorsAndRegions
+    # vendors_and_regions
     #
     # Usage:
-    #   report = reporter.getVendorsAndRegions
-    def getVendorsAndRegions
+    #   report = reporter.vendors_and_regions
+    def vendors_and_regions
       fetch(@config[:finance_path], 'Finance.getVendorsAndRegions')
     end
 
-    # getReport
+    # get_report
     # Refer to: https://help.apple.com/itc/appsreporterguide/
     #
     # Usage:
     #
-    # report = reporter.getReport(
-    #   {
-    #     vendor_number: 'myVendor',
-    #     region_code: 'US',
-    #     report_type: 'Financial',
-    #     fiscal_year: '2016',
-    #     fiscal_period: '02'
-    #   }
+    # report = reporter.get_report(
+    #   vendor_number: 'myVendor',
+    #   region_code: 'US',
+    #   report_type: 'Financial',
+    #   fiscal_year: '2016',
+    #   fiscal_period: '02'
     # )
-    def getReport(params = {})
+    def get_report(params = {})
       fetch(@config[:finance_path], (['Finance.getReport'] + [params.slice(:vendor_number, :region_code, :report_type, :fiscal_year, :fiscal_period).values.join(',')]).join(', '))
     end
 
-    def getVersion
+    def version
       @config[:version]
     end
   end

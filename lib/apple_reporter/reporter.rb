@@ -11,7 +11,7 @@ module AppleReporter
         sales_path: '/sales/v1',
         finance_path: '/finance/v1',
         mode: 'Robot.XML',
-        version: '1.0'
+        version: '1_0'
       }.merge(config)
     end
 

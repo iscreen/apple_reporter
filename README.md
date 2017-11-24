@@ -54,6 +54,22 @@ report = reporter.get_report(
 )
 ```
 
+- get_report with version
+```
+reporter = AppleReporter::Finance.new(
+  user_id: 'your user id', 
+  access_token: 'your access token'
+  version: '1_1'
+)
+report = reporter.get_report(
+  vendor_number: 'your vender id',
+  region_code: 'US',
+  report_type: 'Financial',
+  fiscal_year: '2016',
+  fiscal_period: '02'
+)
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

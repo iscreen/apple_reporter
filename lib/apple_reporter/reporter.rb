@@ -11,7 +11,7 @@ module AppleReporter
         sales_path: '/sales/v1',
         finance_path: '/finance/v1',
         mode: 'Robot.XML',
-        version: '1.0',
+        version: '1_0'
       }.merge(config)
     end
 
@@ -31,13 +31,13 @@ module AppleReporter
       payload[:account] = @config[:account] if @config[:account]
 
       response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}", headers)
-      handleResponse(@config[:mode], response)
+      handle_response(@config[:mode], response)
     rescue RestClient::ExceptionWithResponse => err
-      handleResponse(@config[:mode], err.response)
+      handle_response(@config[:mode], err.response)
     end
 
     #
-    def handleResponse(mode, response)
+    def handle_response(mode, response)
       if response.code == 200
         if response.headers[:content_type] == 'application/a-gzip'
           io = StringIO.new(response.body)

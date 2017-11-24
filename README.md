@@ -28,33 +28,45 @@ Or install it yourself as:
 
 ### Sales
 
-- getReport
+- get_report
 
 ```
 reporter = AppleReporter::Sale.new(user_id: 'your user id', access_token: 'your access token')
-report = reporter.getReport(
-  {
-    vendor_number: 'your vender id',
-    report_type: 'Sales',
-    report_sub_type: 'Summary',
-    date_type: 'Daily',
-    date: '20161212'
-  }
+report = reporter.get_report(
+  vendor_number: 'your vender id',
+  report_type: 'Sales',
+  report_sub_type: 'Summary',
+  date_type: 'Daily',
+  date: '20161212'
 )
 ```
 ### Finance
 
-- getReport
+- get_report
 ```
 reporter = AppleReporter::Finance.new(user_id: 'your user id', access_token: 'your access token')
-report = reporter.getReport(
-  {
-    vendor_number: 'your vender id',
-    region_code: 'US',
-    report_type: 'Financial',
-    fiscal_year: '2016',
-    fiscal_period: '02'
-  }
+report = reporter.get_report(
+  vendor_number: 'your vender id',
+  region_code: 'US',
+  report_type: 'Financial',
+  fiscal_year: '2016',
+  fiscal_period: '02'
+)
+```
+
+- get_report with version
+```
+reporter = AppleReporter::Finance.new(
+  user_id: 'your user id', 
+  access_token: 'your access token'
+  version: '1_1'
+)
+report = reporter.get_report(
+  vendor_number: 'your vender id',
+  region_code: 'US',
+  report_type: 'Financial',
+  fiscal_year: '2016',
+  fiscal_period: '02'
 )
 ```
 

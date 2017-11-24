@@ -1,51 +1,47 @@
 module AppleReporter
   class Sale < Reporter
-
-    # getAccounts
+    # accounts
     #
     # Usage:
-    #   report = reporter.getAccounts
-    def getAccounts
+    #   report = reporter.accounts
+    def accounts
       fetch(@config[:sales_path], 'Sales.getAccounts')
     end
 
-    # getStatus
+    # status
     #
     # Usage:
-    #   report = reporter.getStatus
-    def getStatus
+    #   report = reporter.status
+    def status
       fetch(@config[:sales_path], 'Sales.getStatus')
     end
 
-    # getVendors
+    # vendors
     #
     # Usage:
-    #   report = reporter.getVendors
-    def getVendors
+    #   report = reporter.vendors
+    def vendors
       fetch(@config[:sales_path], 'Sales.getVendors')
     end
 
-    def getVersion
+    def version
       @config[:version]
     end
 
-    # getReport
+    # get_report
     # Refer to: https://help.apple.com/itc/appsreporterguide/
     #
     # Usage:
     #
-    # report = reporter.getReport(
-    #   {
-    #     vendor_number: 'myVendor',
-    #     report_type: 'Sales',
-    #     report_sub_type: 'Summary',
-    #     date_type: 'Daily',
-    #     date: '20161212'
-    #   }
+    # report = reporter.get_report(
+    #   vendor_number: 'myVendor',
+    #   report_type: 'Sales',
+    #   report_sub_type: 'Summary',
+    #   date_type: 'Daily',
+    #   date: '20161212'
     # )
-    def getReport(params = {})
+    def get_report(params = {})
       fetch(@config[:sales_path], (['Sales.getReport'] + [params.slice(:vendor_number, :report_type, :report_sub_type, :date_type, :date).values.join(',')]).join(', '))
     end
-
   end
 end

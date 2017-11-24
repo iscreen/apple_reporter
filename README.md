@@ -30,7 +30,7 @@ Or install it yourself as:
 
 - get_report
 
-```
+```ruby
 reporter = AppleReporter::Sale.new(user_id: 'your user id', access_token: 'your access token')
 report = reporter.get_report(
   vendor_number: 'your vender id',
@@ -43,7 +43,8 @@ report = reporter.get_report(
 ### Finance
 
 - get_report
-```
+
+```ruby
 reporter = AppleReporter::Finance.new(user_id: 'your user id', access_token: 'your access token')
 report = reporter.get_report(
   vendor_number: 'your vender id',
@@ -55,7 +56,8 @@ report = reporter.get_report(
 ```
 
 - get_report with version
-```
+
+```ruby
 reporter = AppleReporter::Finance.new(
   user_id: 'your user id', 
   access_token: 'your access token'

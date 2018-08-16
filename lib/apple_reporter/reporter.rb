@@ -17,7 +17,7 @@ module AppleReporter
 
     private
 
-    def fetch(api_path, params)
+    def fetch(api_path, params, url_params=nil)
       headers = {
         'Content-Type' => 'application/x-www-form-urlencoded'
       }
@@ -31,7 +31,7 @@ module AppleReporter
       payload[:account] = @config[:account] if @config[:account]
       payload[:password] = @config[:password] if @config[:password]
 
-      response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}", headers)
+      response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}#{url_params}", headers)
       handle_response(@config[:mode], response)
     rescue RestClient::ExceptionWithResponse => err
       handle_response(@config[:mode], err.response)

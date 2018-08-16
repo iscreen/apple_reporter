@@ -72,6 +72,23 @@ report = reporter.get_report(
 )
 ```
 
+### AccessToken
+
+- view
+
+```ruby
+reporter = AppleReporter::Token.new(user_id: 'your user id', password: 'your password')
+token_info = reporter.view
+```
+
+- generate
+
+```ruby
+reporter = AppleReporter::Token.new(user_id: 'your user id', password: 'your password')
+token_info = reporter.generate
+```
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

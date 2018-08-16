@@ -44,13 +44,19 @@ module AppleReporter
           gz = Zlib::GzipReader.new(io)
           return gz.readlines.join
         else
-          return Hash.from_xml(response.body)
+          handle_response_body_with_mode(response.body, mode)
         end
+      else
+        handle_response_body_with_mode(response.body, mode)
       end
+    end
 
-      return Hash.from_xml(response.body) if mode == 'Robot.XML'
-
-      response.body
+    def handle_response_body_with_mode(body, mode)
+      if mode =~ /robot\.xml/i
+        Hash.from_xml(body)
+      else
+        body
+      end
     end
   end
 end

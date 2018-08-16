@@ -29,6 +29,7 @@ module AppleReporter
         queryInput: "[p=Reporter.properties, #{params}]"
       }
       payload[:account] = @config[:account] if @config[:account]
+      payload[:password] = @config[:password] if @config[:password]
 
       response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}", headers)
       handle_response(@config[:mode], response)

@@ -17,7 +17,7 @@ module AppleReporter
 
     private
 
-    def fetch(api_path, params)
+    def fetch(api_path, params, url_params=nil)
       headers = {
         'Content-Type' => 'application/x-www-form-urlencoded'
       }
@@ -29,8 +29,9 @@ module AppleReporter
         queryInput: "[p=Reporter.properties, #{params}]"
       }
       payload[:account] = @config[:account] if @config[:account]
+      payload[:password] = @config[:password] if @config[:password]
 
-      response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}", headers)
+      response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}#{url_params}", headers)
       handle_response(@config[:mode], response)
     rescue RestClient::ExceptionWithResponse => err
       handle_response(@config[:mode], err.response)
@@ -44,13 +45,19 @@ module AppleReporter
           gz = Zlib::GzipReader.new(io)
           return gz.readlines.join
         else
-          return Hash.from_xml(response.body)
+          handle_response_body_with_mode(response.body, mode)
         end
+      else
+        handle_response_body_with_mode(response.body, mode)
       end
+    end
 
-      return Hash.from_xml(response.body) if mode == 'Robot.XML'
-
-      response.body
+    def handle_response_body_with_mode(body, mode)
+      if mode =~ /robot\.xml/i
+        Hash.from_xml(body)
+      else
+        body
+      end
     end
   end
 end

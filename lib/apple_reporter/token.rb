@@ -26,6 +26,11 @@ module AppleReporter
       data
     end
 
+    def delete
+      data, _ = fetch(@config[:sales_path], 'Sales.deleteToken')
+      data
+    end
+
     private
 
     #

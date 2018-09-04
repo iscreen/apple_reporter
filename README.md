@@ -87,6 +87,12 @@ token_info = reporter.view
 reporter = AppleReporter::Token.new(user_id: 'your user id', password: 'your password')
 token_info = reporter.generate
 ```
+- delete
+
+```ruby
+reporter = AppleReporter::Token.new(user_id: 'your user id', password: 'your password')
+reporter.delete
+```
 
 
 ## Development

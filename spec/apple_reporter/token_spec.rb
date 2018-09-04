@@ -10,7 +10,7 @@ describe 'AppleReporter.Token' do
       before do
         stub_request(:post, 'https://reportingitc-reporter.apple.com/reportservice/sales/v1')
           .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
-          .to_return(status: 200, body: view_fixture, 
+          .to_return(status: 200, body: view_fixture,
                      headers: { 'Content-Type' => 'text/plain;charset=utf-8', 'Service-Request-ID' => 'aaa-bbb'})
       end
 
@@ -43,7 +43,7 @@ describe 'AppleReporter.Token' do
       before do
         stub_request(:post, 'https://reportingitc-reporter.apple.com/reportservice/sales/v1')
           .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
-          .to_return(status: 200, body: generate_fixture, 
+          .to_return(status: 200, body: generate_fixture,
                      headers: { 'Content-Type' => 'text/plain;charset=utf-8', 'Service-Request-ID' => 'aaa-bbb'})
       end
 
@@ -62,6 +62,39 @@ describe 'AppleReporter.Token' do
       before do
         stub_request(:post, endpoint)
           .to_return(status: 400, body: generate_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
+      end
+
+      it 'get errors' do
+        report = reporter.view
+        expect(report.key?('Error')).to be(true)
+        expect(report['Error'].key?('Code')).to be(true)
+      end
+    end
+  end
+
+  describe '#delete' do
+    describe 'successfully' do
+      let(:delete_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'delete_token.xml')) }
+      before do
+        stub_request(:post, 'https://reportingitc-reporter.apple.com/reportservice/sales/v1')
+          .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+          .to_return(status: 200, body: delete_fixture,
+                     headers: { 'Content-Type' => 'text/plain;charset=utf-8', 'Service-Request-ID' => 'aaa-bbb'})
+      end
+
+      it 'get access token info' do
+        report = reporter.delete
+        expect(report.key?('Output')).to be(true)
+        expect(report['Output'].key?('Message')).to be(true)
+        expect(report['Output']['Message']).to eq('Your existing access token has been deleted.')
+      end
+    end
+
+    describe 'failure' do
+      let(:delete_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'error.xml')) }
+      before do
+        stub_request(:post, endpoint)
+          .to_return(status: 400, body: delete_fixture, headers: { 'Content-Type' => 'text/plain;charset=utf-8'})
       end
 
       it 'get errors' do

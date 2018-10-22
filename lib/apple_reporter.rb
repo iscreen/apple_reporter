@@ -8,5 +8,5 @@ require 'apple_reporter/finance'
 require 'apple_reporter/token'
 
 module AppleReporter
-  raise "Cannot require AppleReporter, unsupported engine '#{RUBY_ENGINE}'" unless RUBY_ENGINE == "ruby"
+  #raise "Cannot require AppleReporter, unsupported engine '#{RUBY_ENGINE}'" unless RUBY_ENGINE == "ruby"
 end

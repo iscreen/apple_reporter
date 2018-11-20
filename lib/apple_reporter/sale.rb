@@ -40,8 +40,22 @@ module AppleReporter
     #   date_type: 'Daily',
     #   date: '20161212'
     # )
+    #
+    # report = reporter.get_report(
+    #   vendor_number: 'myVendor',
+    #   report_type: 'SubscriptionEvent',
+    #   report_sub_type: 'Summary',
+    #   date_type: 'Daily',
+    #   date: '20161212',
+    #   version: "1_1"
+    # )
     def get_report(params = {})
-      fetch(@config[:sales_path], (['Sales.getReport'] + [params.slice(:vendor_number, :report_type, :report_sub_type, :date_type, :date).values.join(',')]).join(', '))
+      values = params.slice(:vendor_number, :report_type, :report_sub_type, :date_type, :date).values
+      if params[:version]
+        values << params[:version]
+      end
+
+      fetch(@config[:sales_path], (['Sales.getReport'] + [values.join(',')]).join(', '))
     end
   end
 end

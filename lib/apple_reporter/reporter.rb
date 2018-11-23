@@ -34,7 +34,11 @@ module AppleReporter
       response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}#{url_params}", headers)
       handle_response(@config[:mode], response)
     rescue RestClient::ExceptionWithResponse => err
-      handle_response(@config[:mode], err.response)
+      if err.response
+        handle_response(@config[:mode], err.response)
+      else
+        raise err
+      end
     end
 
     #

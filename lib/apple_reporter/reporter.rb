@@ -1,3 +1,6 @@
+require 'tempfile'
+require 'fileutils'
+
 module AppleReporter
   class Reporter
     ENDPOINT = 'https://reportingitc-reporter.apple.com/reportservice'
@@ -45,9 +48,7 @@ module AppleReporter
     def handle_response(mode, response)
       if response.code == 200
         if response.headers[:content_type] == 'application/a-gzip'
-          io = StringIO.new(response.body)
-          gz = Zlib::GzipReader.new(io)
-          return gz.readlines.join
+          gzip_decompress(response.body)
         else
           handle_response_body_with_mode(response.body, mode)
         end
@@ -62,6 +63,31 @@ module AppleReporter
       else
         body
       end
+    end
+
+    def gzip_decompress(gzipped_string)
+      gz_file = Tempfile.open(['report', '.gz'], encoding: 'ascii-8bit')
+      begin
+        gz_file.write gzipped_string
+      ensure
+        gz_file.close
+      end
+
+      begin
+        system("gzip -d #{gz_file.path}")
+      ensure
+        FileUtils.rm gz_file.path rescue nil
+      end
+
+      file_path = File.join(File.dirname(gz_file.path), File.basename(gz_file.path, '.gz'))
+
+      begin
+        content = open(file_path).read
+      ensure
+        FileUtils.rm file_path rescue nil
+      end
+
+      return content
     end
   end
 end

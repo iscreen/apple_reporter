@@ -59,8 +59,8 @@ report = reporter.get_report(
 
 ```ruby
 reporter = AppleReporter::Finance.new(
-  user_id: 'your user id', 
-  access_token: 'your access token'
+  user_id: 'your user id',
+  access_token: 'your access token',
   version: '1_1'
 )
 report = reporter.get_report(

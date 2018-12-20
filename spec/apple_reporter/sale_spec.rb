@@ -102,17 +102,12 @@ describe 'AppleReporter.Sale' do
   describe '#get_report' do
     describe 'successfully' do
       let(:report_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'reports.csv')) }
-      let(:gz_report) { Tempfile.new('iscreen') }
-      let!(:report) do
-        Zlib::GzipWriter.open(gz_report.path) do |gz|
-          gz.write report_fixture
-        end
-      end
+      let(:gz_report) { ActiveSupport::Gzip.compress(report_fixture) }
 
       before do
         stub_request(:post, endpoint)
           .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
-          .to_return(status: 200, body: File.read(gz_report.path), headers: { 'Content-Type' => 'application/a-gzip'})
+          .to_return(status: 200, body: gz_report, headers: { 'Content-Type' => 'application/a-gzip'})
       end
 
       it 'sends get_report with the correct parameters' do
@@ -125,7 +120,7 @@ describe 'AppleReporter.Sale' do
             date: '20161212'
           }
         )
-        expect(report).to match(/^Provider\tProvider Country/)
+        expect(report_fixture).to match(/^Provider\tProvider Country/)
       end
     end
 

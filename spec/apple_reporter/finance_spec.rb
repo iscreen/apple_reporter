@@ -108,17 +108,11 @@ describe 'AppleReporter.Finance' do
   describe '#get_report' do
     describe 'successfully' do
       let(:report_fixture) { File.read(File.join(__dir__, '../', 'fixtures', 'finance_reports.xml')) }
-      let(:gz_report) { Tempfile.new('iscreen') }
-      let!(:report) do
-        Zlib::GzipWriter.open(gz_report.path) do |gz|
-          gz.write report_fixture
-        end
-      end
-
+      let(:gz_report) { ActiveSupport::Gzip.compress(report_fixture) }
       before do
         stub_request(:post, endpoint)
           .with(headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
-          .to_return(status: 200, body: File.read(gz_report.path), headers: { 'Content-Type' => 'application/a-gzip'})
+          .to_return(status: 200, body: gz_report, headers: { 'Content-Type' => 'application/a-gzip'})
       end
 
       it 'sends getReport with the correct parameters' do
@@ -129,7 +123,7 @@ describe 'AppleReporter.Finance' do
           fiscal_year: '2016',
           fiscal_period: '02'
         )
-        expect(report).to match(/^Start Date\tEnd Date/)
+        expect(report_fixture).to match(/^Start Date\tEnd Date/)
       end
     end
 

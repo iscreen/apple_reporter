@@ -1,7 +1,7 @@
 module AppleReporter
   class Reporter
     ENDPOINT = 'https://reportingitc-reporter.apple.com/reportservice'
-
+    GZIP_MIMETYPE = '1f8b0800000000000000'.freeze
     #
     # Usage:
     # reporter = Apple::Reporter::Sale.new(user_id: 'iscreen', access_token: 'secret', account: 'myAccount')
@@ -30,8 +30,11 @@ module AppleReporter
       }
       payload[:account] = @config[:account] if @config[:account]
       payload[:password] = @config[:password] if @config[:password]
-
-      response = RestClient.post("#{ENDPOINT}#{api_path}", "jsonRequest=#{payload.to_json}#{url_params}", headers)
+      response = RestClient.post(
+        "#{ENDPOINT}#{api_path}",
+        "jsonRequest=#{payload.to_json}#{url_params}",
+        headers
+      )
       handle_response(@config[:mode], response)
     rescue RestClient::ExceptionWithResponse => err
       if err.response
@@ -45,9 +48,7 @@ module AppleReporter
     def handle_response(mode, response)
       if response.code == 200
         if response.headers[:content_type] == 'application/a-gzip'
-          io = StringIO.new(response.body)
-          gz = Zlib::GzipReader.new(io)
-          return gz.readlines.join
+          decompress_gzip(response.body)
         else
           handle_response_body_with_mode(response.body, mode)
         end
@@ -62,6 +63,19 @@ module AppleReporter
       else
         body
       end
+    end
+
+    def decompress_gzip(compress_string)
+      buffer = []
+      chunks = compress_string.unpack('H*').first.split(GZIP_MIMETYPE)
+      if chunks.length == 1
+        buffer << ActiveSupport::Gzip.decompress([chunks.first].pack('H*'))
+      else
+        chunks.reject(&:empty?).each do |chunk|
+          buffer << Zlib::GzipReader.new(StringIO.new([GZIP_MIMETYPE + chunk].pack('H*'))).read
+        end
+      end
+      buffer.join
     end
   end
 end
